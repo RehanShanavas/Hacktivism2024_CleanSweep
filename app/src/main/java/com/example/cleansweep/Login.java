@@ -69,27 +69,35 @@ public class Login extends AppCompatActivity {
                 email = String.valueOf(edittextemail.getText());
                 password = String.valueOf(edittextemail.getText());
 
+                boolean valid = true;
+
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Login.this, "Enter your email", Toast.LENGTH_SHORT).show();
+                    valid = false;
                 }
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(Login.this, "Enter your password", Toast.LENGTH_SHORT).show();
+                    valid = false;
                 }
 
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Login.this, "Login successful.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                if (valid){
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressBar.setVisibility(View.GONE);
+                            if (task.isSuccessful()) {
+                                Toast.makeText(Login.this, "Login successful.", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    progressBar.setVisibility(View.GONE);
+                }
             }
         });
     }
