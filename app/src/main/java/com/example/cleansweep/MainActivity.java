@@ -1,6 +1,7 @@
 package com.example.cleansweep;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -21,7 +23,7 @@ import java.util.Objects;
 import Fragments.HomeFragment;
 import Fragments.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProfileFragment.OnProfileUpdatedListener {
 
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -36,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     TextView userEmail;
 
     LinearLayout homeFrame;
+
     LinearLayout profileFrame;
+
     LinearLayout logoutFrame;
 
     @Override
@@ -45,8 +49,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+
         homeFrame = findViewById(R.id.nav_home_btn);
+
         profileFrame = findViewById(R.id.nav_profile_btn);
+
         logoutFrame = findViewById(R.id.nav_logout_btn);
 
         Title = findViewById(R.id.title_bar);
@@ -89,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
+
         profileFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
+
         logoutFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,5 +119,16 @@ public class MainActivity extends AppCompatActivity {
 //        INITIALIZE WITH HOME FRAGMENT
         getSupportFragmentManager().beginTransaction().replace(R.id.main_content, new HomeFragment()).commit();
         Title.setText(R.string.home);
+    }
+
+    @Override
+    public void onProfileUpdated(String username, Uri photoUri) {
+        // Update UI elements with new profile data
+        if (username != null) {
+            this.username.setText(username);
+        }
+        if (photoUri != null) {
+            Glide.with(this).load(photoUri).into(userImage);
+        }
     }
 }
