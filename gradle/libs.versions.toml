@@ -16,7 +16,8 @@ navigationFragment = "2.6.0"
 navigationUi = "2.6.0"
 glide = "4.15.1"
 glideCompiler = "4.15.1"
-fragment = "1.6.1"  # Added line for fragment dependency
+fragment = "1.6.1"
+firebaseFirestore = "25.0.0"  # Added line for fragment dependency
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -34,7 +35,8 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glideCompiler" }
-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }  # Added line for fragment dependency
+fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }  # Added line for fragment dependency
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

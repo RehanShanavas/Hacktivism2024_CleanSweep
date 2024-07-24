@@ -38,9 +38,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
     TextView userEmail;
 
     LinearLayout homeFrame;
-
     LinearLayout profileFrame;
-
     LinearLayout logoutFrame;
 
     @Override
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
                 }
             }
         });
-
         homeFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
-
         profileFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         });
-
         logoutFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
                 finish();
             }
         });
-
 //        INITIALIZE WITH HOME FRAGMENT
         getSupportFragmentManager().beginTransaction().replace(R.id.main_content, new HomeFragment()).commit();
         Title.setText(R.string.home);
