@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "782049377713",
-    "project_id": "cleansweep-fb678",
-    "storage_bucket": "cleansweep-fb678.appspot.com"
+    "project_number": "533996916603",
+    "project_id": "cleansweep-a8eb4",
+    "storage_bucket": "cleansweep-a8eb4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:782049377713:android:0ccc00ca7a616437ad1190",
+        "mobilesdk_app_id": "1:533996916603:android:e4fab240a81688f3fef7de",
         "android_client_info": {
           "package_name": "com.example.cleansweep"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD4TLVHlHiQMVszvcngBvQboG-EwmTBQ_8"
+          "current_key": "AIzaSyAeM5ZgQD59McOI4LCEKFSY33w6LUMVJlQ"
         }
       ],
       "services": {

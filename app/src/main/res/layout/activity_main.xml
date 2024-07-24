@@ -43,18 +43,13 @@
         tools:context=".MainActivity">
 
         <!--MAIN CONTENT-->
-        <LinearLayout
+
+        <FrameLayout
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <FrameLayout
-                android:id="@+id/main_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </FrameLayout>
-
-        </LinearLayout>
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+        </FrameLayout>
 
         <!--NAVBAR CONTENT-->
         <LinearLayout

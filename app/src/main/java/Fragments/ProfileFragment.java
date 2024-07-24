@@ -148,7 +148,7 @@ public class ProfileFragment extends Fragment {
             final String username = updateUsername.getText().toString().trim();
 
             if (imageUri != null) {
-                final StorageReference fileReference = mStorage.child("profile_images").child(user.getUid() + ".jpg");
+                final StorageReference fileReference = mStorage.child("profile_pictures").child(user.getUid() + ".jpg");
                 fileReference.putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
