@@ -6,15 +6,24 @@ public class PostObject {
     private String imageVal;
     private String userIdVal;
     private String userPhotoVal;
-    // TODO : Location latitude, longitude, locationName, geoHash
+
+    private String latitudeVal;
+    private String longitudeVal;
+    private String locationNameVal;
+    private String geoHashVal;
+
     private String startDateVal;
     private String endDateVal;
 
-    public PostObject(String titleVal, String imageVal, String userIdVal, String userPhotoVal, String startDateVal, String endDateVal) {
+    public PostObject(String titleVal, String imageVal, String userIdVal, String userPhotoVal, String latitudeVal, String longitudeVal, String locationNameVal, String geoHashVal, String startDateVal, String endDateVal) {
         this.titleVal = titleVal;
         this.imageVal = imageVal;
         this.userIdVal = userIdVal;
         this.userPhotoVal = userPhotoVal;
+        this.latitudeVal = latitudeVal;
+        this.longitudeVal = longitudeVal;
+        this.locationNameVal = locationNameVal;
+        this.geoHashVal = geoHashVal;
         this.startDateVal = startDateVal;
         this.endDateVal = endDateVal;
     }
@@ -41,6 +50,18 @@ public class PostObject {
     public String getUserPhotoVal() {
         return userPhotoVal;
     }
+    public String getLatitudeVal() {
+        return latitudeVal;
+    }
+    public String getLongitudeVal() {
+        return longitudeVal;
+    }
+    public String getLocationNameVal() {
+        return locationNameVal;
+    }
+    public String getGeoHashVal() {
+        return geoHashVal;
+    }
     public String getStartDateVal() {
         return startDateVal;
     }
@@ -59,6 +80,18 @@ public class PostObject {
     }
     public void setUserPhotoVal(String userPhotoVal) {
         this.userPhotoVal = userPhotoVal;
+    }
+    public void setLatitudeVal(String latitudeVal) {
+        this.latitudeVal = latitudeVal;
+    }
+    public void setLongitudeVal(String longitudeVal) {
+        this.longitudeVal = longitudeVal;
+    }
+    public void setLocationNameVal(String locationNameVal) {
+        this.locationNameVal = locationNameVal;
+    }
+    public void setGeoHashVal(String geoHashVal) {
+        this.geoHashVal = geoHashVal;
     }
     public void setStartDateVal(String startDateVal) {
         this.startDateVal = startDateVal;
