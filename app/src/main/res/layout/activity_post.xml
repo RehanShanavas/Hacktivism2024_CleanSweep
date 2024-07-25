@@ -49,7 +49,8 @@
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="false"
-        android:hint="@string/start_time" />
+        android:hint="@string/start_time"
+        tools:ignore="KeyboardInaccessibleWidget" />
 
     <EditText
         android:id="@+id/end_date_time"
@@ -58,7 +59,8 @@
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="false"
-        android:hint="@string/end_time" />
+        android:hint="@string/end_time"
+        tools:ignore="KeyboardInaccessibleWidget" />
 
     <Button
         android:id="@+id/confirm_post"

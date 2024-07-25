@@ -56,5 +56,5 @@ dependencies {
     annotationProcessor(libs.glideCompiler)
 
     implementation(libs.fragment)
-
+    implementation(libs.geohash.java)
 }

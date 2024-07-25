@@ -17,7 +17,8 @@ navigationUi = "2.6.0"
 glide = "4.15.1"
 glideCompiler = "4.15.1"
 fragment = "1.6.1"
-firebaseFirestore = "25.0.0"  # Added line for fragment dependency
+firebaseFirestore = "25.0.0"
+geohashJava = "1.4.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -36,7 +37,9 @@ navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glideCompiler" }
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }  # Added line for fragment dependency
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+geohash-java = { group = "ch.hsr", name = "geohash", version.ref = "geohashJava" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
