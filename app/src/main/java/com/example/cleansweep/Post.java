@@ -144,10 +144,12 @@ public class Post extends AppCompatActivity {
                         imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
+                                String documentId = FirebaseFirestore.getInstance().collection("posts").document().getId();
                                 String imageDownloadLink = uri.toString();
                                 PostObject postObject = new PostObject(
                                         title,
                                         imageDownloadLink,
+                                        FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),
                                         FirebaseAuth.getInstance().getCurrentUser().getUid(),
                                         FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl().toString(),
                                         latitudestr,
@@ -155,7 +157,8 @@ public class Post extends AppCompatActivity {
                                         locationaddress,
                                         geohash,
                                         startdate,
-                                        enddate
+                                        enddate,
+                                        documentId
                                 );
                                 addPost(postObject);
                             }
@@ -207,8 +210,8 @@ public class Post extends AppCompatActivity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
+                latitude = location.getLatitude() + 2;
+                longitude = location.getLongitude() + 3;
                 postLocation.setText(getLocationDetails(latitude, longitude));
                 locationManager.removeUpdates(this);
             }

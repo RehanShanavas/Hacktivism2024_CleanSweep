@@ -1,9 +1,13 @@
 package Models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PostObject {
     private String docId;
     private String titleVal;
     private String imageVal;
+    private String userName;
     private String userIdVal;
     private String userPhotoVal;
 
@@ -14,10 +18,13 @@ public class PostObject {
 
     private String startDateVal;
     private String endDateVal;
+    private List<String> participants;
 
-    public PostObject(String titleVal, String imageVal, String userIdVal, String userPhotoVal, String latitudeVal, String longitudeVal, String locationNameVal, String geoHashVal, String startDateVal, String endDateVal) {
+
+    public PostObject(String titleVal, String imageVal, String userName, String userIdVal, String userPhotoVal, String latitudeVal, String longitudeVal, String locationNameVal, String geoHashVal, String startDateVal, String endDateVal, String documentID) {
         this.titleVal = titleVal;
         this.imageVal = imageVal;
+        this.userName = userName;
         this.userIdVal = userIdVal;
         this.userPhotoVal = userPhotoVal;
         this.latitudeVal = latitudeVal;
@@ -26,9 +33,11 @@ public class PostObject {
         this.geoHashVal = geoHashVal;
         this.startDateVal = startDateVal;
         this.endDateVal = endDateVal;
+        this.participants = new ArrayList<>();
     }
 
     public PostObject(){
+        this.participants = new ArrayList<>();
     }
 
     public String getDocId() {
@@ -43,6 +52,9 @@ public class PostObject {
     }
     public String getImageVal() {
         return imageVal;
+    }
+    public String getUserNameVal() {
+        return userName;
     }
     public String getUserIdVal() {
         return userIdVal;
@@ -69,11 +81,15 @@ public class PostObject {
         return endDateVal;
     }
 
+
     public void setTitleVal(String titleVal) {
         this.titleVal = titleVal;
     }
     public void setImageVal(String imageVal) {
         this.imageVal = imageVal;
+    }
+    public void setUserNameVal(String userName) {
+        this.userName = userName;
     }
     public void setUserIdVal(String userIdVal) {
         this.userIdVal = userIdVal;
@@ -98,5 +114,24 @@ public class PostObject {
     }
     public void setEndDateVal(String endDateVal) {
         this.endDateVal = endDateVal;
+    }
+
+    public List<String> getParticipants() {
+        return participants;
+    }
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
+    }
+    public void addParticipant(String participant) {
+        this.participants.add(participant);
+    }
+    public void removeParticipant(String participant) {
+        this.participants.remove(participant);
+    }
+    public int getParticipantsCount() {
+        return participants.size();
+    }
+    public boolean isUserParticipant(String userId) {
+        return participants.contains(userId);
     }
 }
