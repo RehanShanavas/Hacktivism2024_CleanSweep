@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
 
     TextView Title;
     ImageView burgerBtn;
+    ImageView refreshButton;
+
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
 
@@ -44,6 +49,11 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
 
         Title = findViewById(R.id.title_bar);
         burgerBtn = findViewById(R.id.burger_btn);
+        refreshButton = findViewById(R.id.refresh_btn);
         drawerLayout = findViewById(R.id.menu_drawer);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -85,6 +96,16 @@ public class MainActivity extends AppCompatActivity implements ProfileFragment.O
                 }
             }
         });
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_content, new HomeFragment()).commit();
+                Title.setText(R.string.home);
+                drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
         homeFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

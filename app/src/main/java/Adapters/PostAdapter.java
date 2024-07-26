@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,12 +28,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
     private List<PostObject> mData;
     private String currentUserId;
     public String geoHashval;
+    public String date;
 
-    public PostAdapter(Context mContext, List<PostObject> mData, String currentUserId, String geoHash){
+    public PostAdapter(Context mContext, List<PostObject> mData, String currentUserId, String geoHash, String currentDate){
         this.mContext = mContext;
         this.mData = mData;
         this.currentUserId = currentUserId;
         this.geoHashval = geoHash;
+        this.date = currentDate;
     }
 
     @NonNull
@@ -63,15 +66,29 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
             inRange = false;
         }
 
+        boolean isToday = post.getStartDateVal().compareTo(date) <= 0 && post.getEndDateVal().compareTo(date) >= 0;
+
         if (post.getUserIdVal().equals(currentUserId)) {
             holder.joinButton.setText("Delete");
+            holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.fadedbrown));
+            holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.brown));
         } else {
             if (post.getParticipants().contains(currentUserId)) {
                 holder.joinButton.setText("Leave");
+                holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.fadedolive));
+                holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.olive));
+            } else if (!isToday) {
+                holder.joinButton.setText("Upcoming");
+                holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.brown));
+                holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.fadedbrown));
             } else if (!inRange) {
                 holder.joinButton.setText("Not in Range");
+                holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.brown));
+                holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.fadedbrown));
             } else {
                 holder.joinButton.setText("Join");
+                holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.darkestolive));
+                holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightolive));
             }
         }
 
@@ -81,12 +98,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
 
             if (post.getUserIdVal().equals(currentUserId)){
                 postRef.delete();
+                // delete the post
+                mData.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, mData.size());
             } else {
                 if (post.getParticipants().contains(currentUserId)) {
                     // Remove user from participants
                     post.removeParticipant(currentUserId);
                     postRef.update("participants", post.getParticipants());
                     holder.joinButton.setText("Join");
+                    holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.darkestolive));
+                    holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.lightolive));
+                } else if (!isToday) {
+                    // do nothing for now
                 } else if (!inRange) {
                     // do nothing for now
                 } else {
@@ -94,6 +119,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
                     post.addParticipant(currentUserId);
                     postRef.update("participants", post.getParticipants());
                     holder.joinButton.setText("Leave");
+                    holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.fadedolive));
+                    holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.olive));
                 }
                 holder.partcipantCount.setText("Partcicpants: " + post.getParticipantsCount());
             }

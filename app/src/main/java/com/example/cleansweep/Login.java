@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +26,7 @@ public class Login extends AppCompatActivity {
     Button buttonlogin;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
-    TextView textView;
+    Button buttonRegisterLink;
 
     @Override
     public void onStart() {
@@ -45,14 +42,19 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
         edittextemail = findViewById(R.id.login_email);
         edittextpassword = findViewById(R.id.login_password);
         buttonlogin = findViewById(R.id.btn_login);
         progressBar = findViewById(R.id.login_progressBar);
-        textView = findViewById(R.id.register_link);
-        textView.setOnClickListener(new View.OnClickListener() {
+        buttonRegisterLink = findViewById(R.id.register_link);
+        buttonRegisterLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Register.class);
@@ -84,15 +86,17 @@ public class Login extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 Toast.makeText(Login.this, "Login successful.", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                             }
+
                         }
                     });
                 } else {

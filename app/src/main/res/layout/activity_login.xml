@@ -4,61 +4,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@color/paleolive"
+    android:gravity="top|center"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".Login">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:layout_gravity="center"
+        android:src="@drawable/logo_transparent"
+        tools:ignore="ContentDescription" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
         android:gravity="center"
-        android:text="@string/login"
-        android:textSize="35sp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:text="@string/login"
+        android:textColor="@color/darkestolive"
+        android:textSize="30sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:hint="@string/email"
+        app:cursorColor="@color/darkestolive"
+        android:textColorHint="@color/darkestolive"
+        app:hintTextAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:hintTextColor="@color/darkestolive">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/email" />
+            android:background="@drawable/textinputgradient"
+            android:textColor="@color/grey" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:hint="@string/Password"
+        app:cursorColor="@color/darkestolive"
+        android:textColorHint="@color/darkestolive"
+        app:hintTextAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:hintTextColor="@color/darkestolive">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Password" />
+            android:background="@drawable/textinputgradient"
+            android:textColor="@color/grey" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
 
     <ProgressBar
         android:id="@+id/login_progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/brown"
         android:visibility="gone" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login" />
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/lightolive"
+        android:text="@string/login"
+        android:textColor="@color/darkestolive" />
 
-    <TextView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="15dp"
+        android:background="@color/olive" />
+
+    <Button
         android:id="@+id/register_link"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/click_to_register"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:layout_height="50dp"
+        android:backgroundTint="@color/brown"
+        android:text="@string/register"
+        android:textColor="@color/fadedolive" />
 </LinearLayout>
