@@ -8,28 +8,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PackageManagerCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +44,7 @@ public class Register extends AppCompatActivity {
     Button buttonregister;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
-    TextView textView;
+    Button buttonLoginLink;
 
     @Override
     public void onStart() {
@@ -107,8 +102,8 @@ public class Register extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
-                                    Toast.makeText(Register.this, "Account created.", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(Register.this, "Account created.", Toast.LENGTH_SHORT).show();                                    Intent intent = new Intent(getApplicationContext(), Login.class);
                                     startActivity(intent);
                                     finish();
                                 }
@@ -123,6 +118,11 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
 
@@ -141,8 +141,8 @@ public class Register extends AppCompatActivity {
         edittextpassword = findViewById(R.id.register_password);
         buttonregister = findViewById(R.id.btn_register);
         progressBar = findViewById(R.id.register_progressBar);
-        textView = findViewById(R.id.login_link);
-        textView.setOnClickListener(new View.OnClickListener() {
+        buttonLoginLink = findViewById(R.id.login_link);
+        buttonLoginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -183,11 +183,11 @@ public class Register extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 FirebaseUser currentUser = mAuth.getCurrentUser();
                                 updateUserInfo(username, imageUri, currentUser);
                             } else {
+                                progressBar.setVisibility(View.GONE);
                                 Toast.makeText(Register.this, "Account creation failed.", Toast.LENGTH_SHORT).show();
                             }
                         }

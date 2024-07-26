@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/paleolive"
     android:padding="16dp"
     tools:context="Fragments.ProfileFragment">
 
@@ -12,6 +13,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:cardCornerRadius="25dp"
+        app:cardBackgroundColor="@color/olive"
         app:cardElevation="10dp">
         <ImageView
             android:id="@+id/update_image"
@@ -23,38 +25,68 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/update_profile_image" />
+        android:fontFamily="serif-monospace"
+        android:gravity="center"
+        android:text="@string/update_profile_image"
+        android:textColor="@color/darkestolive"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:hint="@string/username"
+        app:cursorColor="@color/darkestolive"
+        android:textColorHint="@color/darkestolive"
+        app:errorEnabled="false"
+        app:hintTextAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:hintTextColor="@color/darkestolive">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/update_profile_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username" />
+            android:background="@drawable/textinputgradient"
+            android:textColor="@color/grey" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
 
     <ProgressBar
         android:id="@+id/update_profile_progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/brown"
         android:visibility="gone" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
 
     <Button
         android:id="@+id/btn_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/update" />
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/lightolive"
+        android:text="@string/update"
+        android:textColor="@color/darkestolive" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="15dp"
+        android:background="@color/olive" />
 
     <Button
         android:id="@+id/btn_cancel_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel" />
-
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/brown"
+        android:text="@string/cancel"
+        android:textColor="@color/fadedolive" />
 </LinearLayout>

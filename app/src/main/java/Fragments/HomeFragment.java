@@ -3,6 +3,7 @@ package Fragments;
 import static android.content.Context.LOCATION_SERVICE;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -25,6 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.cleansweep.Post;
 import com.example.cleansweep.R;
@@ -41,8 +45,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import Adapters.PostAdapter;
 import Models.PostObject;
@@ -57,13 +64,16 @@ public class HomeFragment extends Fragment {
     private LocationManager locationManager;
     private LocationListener locationListener;
 
+
     double latitude;
     double longitude;
     String currentGeoHash = "";
+    String currentDate = "";
 
     CardView addPostButton;
     RecyclerView postrecyclerView;
     PostAdapter postAdapter;
+    ProgressBar progressBar;
 
     FirebaseFirestore db;
     DocumentReference docRef;
@@ -94,12 +104,20 @@ public class HomeFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("posts").document();
 
+        progressBar = view.findViewById(R.id.home_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
         addPostButton = view.findViewById(R.id.add_post);
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), Post.class);
-                startActivity(intent);
+                if (!currentGeoHash.isEmpty()){
+                    Intent intent = new Intent(getActivity(), Post.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Please enable location services", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -109,14 +127,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (!currentGeoHash.isEmpty()) {
-            setupFirestoreListener();
-        }
     }
 
     private void setupFirestoreListener() {
         final GeoLocation center = new GeoLocation(latitude, longitude);
-        final double radiusInM = 100 * 1000;
+        final double radiusInM = 50 * 1000;
 
         List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
         final List<Task<QuerySnapshot>> collection = new ArrayList<>();
@@ -143,13 +158,15 @@ public class HomeFragment extends Fragment {
                 }
 
                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                postAdapter = new PostAdapter(getActivity(), postList, currentUserId, currentGeoHash);
+                postAdapter = new PostAdapter(getActivity(), postList, currentUserId, currentGeoHash, currentDate);
                 postrecyclerView.setAdapter(postAdapter);
+                progressBar.setVisibility(View.GONE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Handle error
+                progressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -163,8 +180,12 @@ public class HomeFragment extends Fragment {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
                 currentGeoHash = GeoHash.geoHashStringWithCharacterPrecision(latitude, longitude, 7);
-                locationManager.removeUpdates(this);
-                setupFirestoreListener(); // Set up Firestore listener once location is determined
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+                currentDate = sdf.format(new Date());
+                if (!currentDate.isEmpty()) {
+                    locationManager.removeUpdates(this);
+                    setupFirestoreListener();
+                }
             }
 
             @Override

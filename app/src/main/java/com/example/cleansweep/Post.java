@@ -17,9 +17,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +72,7 @@ public class Post extends AppCompatActivity {
     TextView postLocation;
     EditText startDateTime;
     EditText endDateTime;
+    ProgressBar progressBar;
 
     Button confirmPost;
     Button cancelPost;
@@ -77,7 +81,11 @@ public class Post extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
+
         setContentView(R.layout.activity_post);
 
         postTitle = findViewById(R.id.post_title);
@@ -101,8 +109,11 @@ public class Post extends AppCompatActivity {
         startDateTime.setOnClickListener(view -> showDateTimePicker(startDateTime));
         endDateTime.setOnClickListener(view -> showDateTimePicker(endDateTime));
 
+        progressBar = findViewById(R.id.add_post_progressBar);
+
         confirmPost = findViewById(R.id.confirm_post);
         confirmPost.setOnClickListener(view -> {
+            progressBar.setVisibility(View.VISIBLE);
             String title = postTitle.getText().toString();
             String startdate = startDateTime.getText().toString();
             String enddate = endDateTime.getText().toString();
@@ -166,6 +177,7 @@ public class Post extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(Post.this, "Image upload failed.", Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.GONE);
                             }
                         });
                     }
@@ -173,8 +185,11 @@ public class Post extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(Post.this, "Image upload failed.", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
+            } else {
+                progressBar.setVisibility(View.GONE);
             }
         });
 
@@ -307,11 +322,13 @@ public class Post extends AppCompatActivity {
                 } else {
                     Toast.makeText(Post.this, "Post creation failed.", Toast.LENGTH_SHORT).show();
                 }
+                progressBar.setVisibility(View.GONE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(Post.this, "Post creation failed.", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         });
     }

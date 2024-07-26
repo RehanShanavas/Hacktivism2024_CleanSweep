@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +53,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth;
     private StorageReference mStorage;
 
+    TextView Title;
+
     ImageView updateImage;
     EditText updateUsername;
     ProgressBar progressBar;
@@ -76,10 +80,13 @@ public class ProfileFragment extends Fragment {
         mStorage = FirebaseStorage.getInstance().getReference();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        assert getActivity() != null;
+        Title = getActivity().findViewById(R.id.title_bar);
         updateImage = view.findViewById(R.id.update_image);
         updateUsername = view.findViewById(R.id.update_profile_username);
         progressBar = view.findViewById(R.id.update_profile_progressBar);
@@ -105,7 +112,10 @@ public class ProfileFragment extends Fragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadUserProfile();
+                // go back to home fragment
+                Title.setText("Home");
+                assert getActivity() != null;
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_content, new HomeFragment()).commit();
             }
         });
 

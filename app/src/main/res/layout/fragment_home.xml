@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     tools:context="Fragments.HomeFragment">
 
+    <ProgressBar
+        android:id="@+id/home_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/brown"
+        android:layout_margin="15dp"
+        android:layout_gravity="center|top"
+        android:visibility="gone" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_container"
@@ -25,6 +33,7 @@
             android:id="@+id/add_post"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@color/fadedolive"
             android:layout_gravity="center"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp">

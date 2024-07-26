@@ -7,38 +7,59 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:background="@color/paleolive"
     tools:context=".Post">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:hint="@string/title"
+        app:cursorColor="@color/darkestolive"
+        android:textColorHint="@color/darkestolive"
+        app:hintTextAppearance="@style/TextAppearance.Material3.BodyLarge"
+        app:hintTextColor="@color/darkestolive">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/post_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title" />
+            android:background="@drawable/textinputgradient"
+            android:textColor="@color/fadedolive" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/post_image"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="5dp"
-        android:background="#181824"
-        android:scaleType="centerCrop"
-        android:src="@drawable/googleg_standard_color_18"
-        tools:ignore="ContentDescription" />
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp">
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder"
+            tools:ignore="ContentDescription" />
+
+    </androidx.cardview.widget.CardView>
+
     <TextView
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:text="@string/add_photo" />
+        android:gravity="center"
+        android:text="@string/add_photo"
+        android:fontFamily="serif-monospace"
+        android:textColor="@color/darkestolive"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/post_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
+        android:textColor="@color/darkestolive"
         android:textSize="25sp"
         android:text="@string/location" />
 
@@ -47,6 +68,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+
+        android:textColorHint="@color/darkestolive"
+        android:textColor="@color/fadedolive"
+        android:background="@drawable/textinputgradient"
+
         android:clickable="true"
         android:focusable="false"
         android:hint="@string/start_time"
@@ -57,22 +83,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColorHint="@color/darkestolive"
+        android:textColor="@color/fadedolive"
+        android:background="@drawable/textinputgradient"
         android:clickable="true"
         android:focusable="false"
         android:hint="@string/end_time"
         tools:ignore="KeyboardInaccessibleWidget" />
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
+
+    <ProgressBar
+        android:id="@+id/add_post_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/brown"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
+
     <Button
         android:id="@+id/confirm_post"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/post" />
+        android:layout_height="50dp"
+        android:backgroundTint="@color/lightolive"
+        android:text="@string/post"
+        android:textColor="@color/darkestolive" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="15dp"
+        android:background="@color/olive" />
 
     <Button
         android:id="@+id/cancel_post"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/cancel" />
+        android:layout_height="50dp"
+        android:backgroundTint="@color/brown"
+        android:text="@string/cancel"
+        android:textColor="@color/fadedolive" />
 </LinearLayout>

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimaryDark">#323226</color>
+
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#CCCCCC</color>
+    <color name="darkestolive">#23231B</color>
+    <color name="blackolive">#323226</color>
+    <color name="darkolive">#494C3A</color>
+    <color name="olive">#5D6146</color>
+    <color name="paleolive">#7E8265</color>
+    <color name="fadedolive">#A0A38E</color>
+    <color name="lightolive">#C5C8AF</color>
+
+    <color name="fadedbrown">#93857C</color>
+    <color name="brown">#3A2619</color>
 </resources>

@@ -8,10 +8,10 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/white"
+        android:background="@color/darkolive"
         android:orientation="horizontal">
 
         <ImageView
@@ -19,6 +19,7 @@
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:padding="5dp"
+            android:layout_gravity="start"
             android:src="@drawable/burger"
             tools:ignore="ContentDescription" />
 
@@ -27,14 +28,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:paddingEnd="50dp"
             android:text="@string/menu_home"
             android:textAlignment="center"
-            android:textSize="25sp"
+            android:fontFamily="serif-monospace"
+            android:textColor="@color/darkestolive"
+            android:textSize="30sp"
             android:textStyle="bold"
             tools:ignore="RtlSymmetry" />
-
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/refresh_btn"
+            android:layout_width="50dp"
+            android:layout_gravity="end"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/refresh"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/menu_drawer"
@@ -48,8 +57,8 @@
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:ignore="UselessParent">
-        </FrameLayout>
+            android:background="@color/paleolive"
+            tools:ignore="UselessParent" />
 
         <!--NAVBAR CONTENT-->
         <LinearLayout
@@ -93,16 +102,20 @@
                         android:id="@+id/user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="serif-monospace"
                         android:text="Hello World!"
-                        android:textSize="20sp"
+                        android:textColor="@color/darkestolive"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/user_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="serif-monospace"
                         android:text="Hello World!"
-                        android:textSize="15sp" />
+                        android:textColor="@color/darkestolive"
+                        android:textSize="20sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -130,9 +143,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="serif-monospace"
                     android:paddingStart="10dp"
                     android:text="@string/menu_home"
-                    android:textSize="16sp"
+                    android:textColor="@color/darkestolive"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
             </LinearLayout>
@@ -160,9 +175,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="serif-monospace"
                     android:paddingStart="10dp"
                     android:text="@string/profile"
-                    android:textSize="16sp"
+                    android:textColor="@color/darkestolive"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
             </LinearLayout>
@@ -190,9 +207,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:fontFamily="serif-monospace"
                     android:paddingStart="10dp"
                     android:text="@string/logout"
-                    android:textSize="16sp"
+                    android:textColor="@color/darkestolive"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     tools:ignore="RtlSymmetry" />
             </LinearLayout>

@@ -10,66 +10,83 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="225dp"
+        android:background="@drawable/postcard"
+        android:layout_height="375dp"
+        android:padding="15dp"
         tools:ignore="UselessParent">
-
-        <ImageView
-            android:id="@+id/postitem_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#181824"
-            android:scaleType="centerCrop"
-            android:src="@drawable/googleg_standard_color_18"
-            tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
             android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="5dp">
+
+                <ImageView
+                    android:id="@+id/postitem_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/googleg_standard_color_18"
+                    tools:ignore="ContentDescription" />
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        app:cardCornerRadius="9dp"
+                        app:cardElevation="5dp">
+
+                        <ImageView
+                            android:id="@+id/postitem_userimage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/add"
+                            tools:ignore="ContentDescription" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/postitem_username"
+                        android:layout_width="wrap_content"
+                        android:text="@string/username"
+                        android:fontFamily="serif-monospace"
+                        android:textColor="@color/white"
+                        android:gravity="center_vertical"
+                        android:paddingStart="5dp"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:layout_height="30dp"
+                        tools:ignore="RtlSymmetry" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
 
             <TextView
                 android:id="@+id/postitem_title"
                 android:layout_width="wrap_content"
                 android:text="@string/title"
                 android:textStyle="bold"
+                android:fontFamily="serif-monospace"
+                android:textColor="@color/darkestolive"
                 android:textSize="20sp"
                 android:layout_height="30dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    app:cardCornerRadius="9dp"
-                    app:cardElevation="5dp">
-
-                    <ImageView
-                        android:id="@+id/postitem_userimage"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/add"
-                        tools:ignore="ContentDescription" />
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:id="@+id/postitem_username"
-                    android:layout_width="wrap_content"
-                    android:text="@string/username"
-                    android:gravity="center_vertical"
-                    android:paddingStart="5dp"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:layout_height="30dp"
-                    tools:ignore="RtlSymmetry" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,6 +98,8 @@
                     android:layout_width="wrap_content"
                     android:text="@string/start_time"
                     android:gravity="center_vertical"
+                    android:fontFamily="serif-monospace"
+                    android:textColor="@color/darkestolive"
                     android:textStyle="bold"
                     android:textSize="15sp"
                     android:layout_height="30dp"
@@ -91,6 +110,8 @@
                     android:text="@string/to"
                     android:gravity="center_vertical"
                     android:paddingStart="10dp"
+                    android:fontFamily="serif-monospace"
+                    android:textColor="@color/darkestolive"
                     android:paddingEnd="10dp"
                     android:textStyle="bold"
                     android:textSize="15sp"
@@ -100,6 +121,8 @@
                     android:id="@+id/postitem_endtime"
                     android:layout_width="wrap_content"
                     android:text="@string/end_time"
+                    android:fontFamily="serif-monospace"
+                    android:textColor="@color/darkestolive"
                     android:gravity="center_vertical"
                     android:textStyle="bold"
                     android:textSize="15sp"
@@ -110,7 +133,9 @@
             <TextView
                 android:id="@+id/postitem_participantcount"
                 android:layout_width="wrap_content"
-                android:text=""
+                android:text="@string/participants"
+                android:fontFamily="serif-monospace"
+                android:textColor="@color/darkolive"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -123,6 +148,8 @@
                 android:text="@string/location"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
+                android:fontFamily="serif-monospace"
+                android:textColor="@color/darkolive"
                 android:textSize="15sp"
                 android:layout_height="wrap_content"
                 tools:ignore="RtlSymmetry" />
@@ -131,17 +158,16 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
             android:layout_gravity="bottom|end">
 
             <Button
                 android:id="@+id/postitem_join"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/join"
                 android:textSize="15sp"
-                android:layout_gravity="bottom|end" />
+                android:backgroundTint="@color/lightolive"
+                android:text="@string/join"
+                android:textColor="@color/darkestolive" />
         </FrameLayout>
     </FrameLayout>
 </LinearLayout>
