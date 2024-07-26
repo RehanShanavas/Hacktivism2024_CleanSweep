@@ -210,8 +210,8 @@ public class Post extends AppCompatActivity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
-                latitude = location.getLatitude() + 2;
-                longitude = location.getLongitude() + 3;
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
                 postLocation.setText(getLocationDetails(latitude, longitude));
                 locationManager.removeUpdates(this);
             }

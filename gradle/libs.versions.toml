@@ -5,20 +5,21 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
-activity = "1.9.0"
+activity = "1.9.1"
 constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
 firebaseStorage = "21.0.0"
-lifecycleLivedataKtx = "2.8.3"
-lifecycleViewmodelKtx = "2.8.3"
-navigationFragment = "2.6.0"
-navigationUi = "2.6.0"
+lifecycleLivedataKtx = "2.8.4"
+lifecycleViewmodelKtx = "2.8.4"
+navigationFragment = "2.7.7"
+navigationUi = "2.7.7"
 glide = "4.15.1"
 glideCompiler = "4.15.1"
-fragment = "1.6.1"
+fragment = "1.8.2"
 firebaseFirestore = "25.0.0"
 geohashJava = "1.4.0"
+geofire = "3.1.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,7 +40,7 @@ glideCompiler = { group = "com.github.bumptech.glide", name = "compiler", versio
 fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 geohash-java = { group = "ch.hsr", name = "geohash", version.ref = "geohashJava" }
-
+geofire = { group = "com.firebase", name = "geofire-android-common", version.ref = "geofire" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -57,4 +57,6 @@ dependencies {
 
     implementation(libs.fragment)
     implementation(libs.geohash.java)
+    implementation(libs.geofire)
+
 }
