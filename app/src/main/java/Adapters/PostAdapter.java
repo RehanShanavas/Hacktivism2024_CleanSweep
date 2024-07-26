@@ -1,5 +1,6 @@
 package Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.cleansweep.R;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -20,12 +23,16 @@ import Models.PostObject;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
 
-    Context mContext;
-    List<PostObject> mData;
+    private Context mContext;
+    private List<PostObject> mData;
+    private String currentUserId;
+    public String geoHashval;
 
-    public PostAdapter(Context mContext, List<PostObject> mData){
+    public PostAdapter(Context mContext, List<PostObject> mData, String currentUserId, String geoHash){
         this.mContext = mContext;
         this.mData = mData;
+        this.currentUserId = currentUserId;
+        this.geoHashval = geoHash;
     }
 
     @NonNull
@@ -35,17 +42,64 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
         return new MyViewHolder(row);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.postTitle.setText(mData.get(position).getTitleVal());
-        String userid = mData.get(position).getUserIdVal();
-        String Username = mData.get(position).getUserNameVal();
-        holder.userName.setText(Username);
-        Glide.with(mContext).load(mData.get(position).getUserPhotoVal()).into(holder.userPhoto);
-        holder.startTime.setText(mData.get(position).getStartDateVal());
-        holder.endTime.setText(mData.get(position).getEndDateVal());
-        holder.postLocation.setText(mData.get(position).getLocationNameVal());
-        Glide.with(mContext).load(mData.get(position).getImageVal()).into(holder.postImage);
+        PostObject post = mData.get(position);
+        holder.postTitle.setText(post.getTitleVal());
+        holder.userName.setText(post.getUserNameVal());
+        Glide.with(mContext).load(post.getUserPhotoVal()).into(holder.userPhoto);
+        holder.startTime.setText(post.getStartDateVal());
+        holder.endTime.setText(post.getEndDateVal());
+        holder.partcipantCount.setText("Partcicpants: " + post.getParticipantsCount());
+        holder.postLocation.setText(post.getLocationNameVal());
+        Glide.with(mContext).load(post.getImageVal()).into(holder.postImage);
+
+        String postGeoHash = post.getGeoHashVal();
+        boolean inRange;
+        if (postGeoHash.equals(geoHashval)) {
+            inRange = true;
+        } else {
+            inRange = false;
+        }
+
+        if (post.getUserIdVal().equals(currentUserId)) {
+            holder.joinButton.setText("Delete");
+        } else {
+            if (post.getParticipants().contains(currentUserId)) {
+                holder.joinButton.setText("Leave");
+            } else if (!inRange) {
+                holder.joinButton.setText("Not in Range");
+            } else {
+                holder.joinButton.setText("Join");
+            }
+        }
+
+        holder.joinButton.setOnClickListener(v -> {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference postRef = db.collection("posts").document(post.getDocId());
+
+            if (post.getUserIdVal().equals(currentUserId)){
+                postRef.delete();
+            } else {
+                if (post.getParticipants().contains(currentUserId)) {
+                    // Remove user from participants
+                    post.removeParticipant(currentUserId);
+                    postRef.update("participants", post.getParticipants());
+                    holder.joinButton.setText("Join");
+                } else if (!inRange) {
+                    // do nothing for now
+                } else {
+                    // Add user to participants
+                    post.addParticipant(currentUserId);
+                    postRef.update("participants", post.getParticipants());
+                    holder.joinButton.setText("Leave");
+                }
+                holder.partcipantCount.setText("Partcicpants: " + post.getParticipantsCount());
+            }
+
+
+        });
     }
 
     @Override
@@ -53,17 +107,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
         return mData.size();
     }
 
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView postTitle;
         TextView userName;
         ImageView userPhoto;
         TextView startTime;
         TextView endTime;
+        TextView partcipantCount;
         TextView postLocation;
         ImageView postImage;
         Button joinButton;
-
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -72,6 +125,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
             userPhoto = itemView.findViewById(R.id.postitem_userimage);
             startTime = itemView.findViewById(R.id.postitem_starttime);
             endTime = itemView.findViewById(R.id.postitem_endtime);
+            partcipantCount = itemView.findViewById(R.id.postitem_participantcount);
             postLocation = itemView.findViewById(R.id.postitem_location);
             postImage = itemView.findViewById(R.id.postitem_image);
             joinButton = itemView.findViewById(R.id.postitem_join);

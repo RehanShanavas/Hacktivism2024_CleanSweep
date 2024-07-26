@@ -1,10 +1,23 @@
 package Fragments;
 
+import static android.content.Context.LOCATION_SERVICE;
+
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,19 +28,38 @@ import android.view.ViewGroup;
 
 import com.example.cleansweep.Post;
 import com.example.cleansweep.R;
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoQueryBounds;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.PostAdapter;
 import Models.PostObject;
+import ch.hsr.geohash.GeoHash;
+
+import com.firebase.geofire.GeoLocation;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class HomeFragment extends Fragment {
+
+    private static final int REQUEST_LOCATION = 1;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+
+    double latitude;
+    double longitude;
+    String currentGeoHash = "";
 
     CardView addPostButton;
     RecyclerView postrecyclerView;
@@ -39,6 +71,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
+
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -49,6 +82,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupLocationListener();
+        checkLocationPermission();
     }
 
     @Override
@@ -58,8 +93,6 @@ public class HomeFragment extends Fragment {
         postrecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("posts").document();
-
-
 
         addPostButton = view.findViewById(R.id.add_post);
         addPostButton.setOnClickListener(new View.OnClickListener() {
@@ -76,26 +109,99 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        if (!currentGeoHash.isEmpty()) {
+            setupFirestoreListener();
+        }
+    }
 
-        db.collection("posts").addSnapshotListener(new EventListener<com.google.firebase.firestore.QuerySnapshot>() {
+    private void setupFirestoreListener() {
+        final GeoLocation center = new GeoLocation(latitude, longitude);
+        final double radiusInM = 100 * 1000;
+
+        List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
+        final List<Task<QuerySnapshot>> collection = new ArrayList<>();
+
+        for (GeoQueryBounds b : bounds) {
+            Query q = db.collection("posts")
+                    .orderBy("geoHashVal")
+                    .startAt(b.startHash)
+                    .endAt(b.endHash);
+            collection.add(q.get());
+        }
+
+        Tasks.whenAll(collection).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onEvent(@Nullable com.google.firebase.firestore.QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    // Handle error
-                    return;
-                }
-
-                if (value != null) {
-                    List<PostObject> postList = new ArrayList<>();
-                    for (DocumentSnapshot doc : value.getDocuments()) {
+            public void onSuccess(Void aVoid) {
+                List<PostObject> postList = new ArrayList<>();
+                for (Task<QuerySnapshot> task : collection) {
+                    QuerySnapshot snapshot = task.getResult();
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
                         PostObject post = doc.toObject(PostObject.class);
+                        post.setDocId(doc.getId());
                         postList.add(post);
                     }
-                    // Initialize the adapter with context and data
-                    postAdapter = new PostAdapter(getActivity(), postList);
-                    postrecyclerView.setAdapter(postAdapter);
                 }
+
+                String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                postAdapter = new PostAdapter(getActivity(), postList, currentUserId, currentGeoHash);
+                postrecyclerView.setAdapter(postAdapter);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle error
             }
         });
+    }
+
+
+
+    private void setupLocationListener() {
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                currentGeoHash = GeoHash.geoHashStringWithCharacterPrecision(latitude, longitude, 7);
+                locationManager.removeUpdates(this);
+                setupFirestoreListener(); // Set up Firestore listener once location is determined
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+            @Override
+            public void onProviderEnabled(@NonNull String provider) {}
+
+            @Override
+            public void onProviderDisabled(@NonNull String provider) {}
+        };
+    }
+
+    private void checkLocationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            locationManager = (LocationManager) requireActivity().getSystemService(LOCATION_SERVICE);
+            if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            } else {
+                requestLocationUpdates();
+            }
+        }
+    }
+
+    private void requestLocationUpdates() {
+        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                requestLocationUpdates();
+            }
+        }
     }
 }
