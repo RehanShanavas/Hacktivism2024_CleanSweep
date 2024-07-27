@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/paleolive"
     tools:context="Fragments.HomeFragment">
 
     <ProgressBar
@@ -33,8 +34,8 @@
             android:id="@+id/add_post"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@color/fadedolive"
             android:layout_gravity="center"
+            app:cardBackgroundColor="@color/lightolive"
             app:cardCornerRadius="15dp"
             app:cardElevation="5dp">
 
