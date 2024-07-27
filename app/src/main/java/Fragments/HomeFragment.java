@@ -140,7 +140,9 @@ public class HomeFragment extends Fragment {
             Query q = db.collection("posts")
                     .orderBy("geoHashVal")
                     .startAt(b.startHash)
-                    .endAt(b.endHash);
+                    .endAt(b.endHash)
+                    .whereGreaterThan("endDateVal", currentDate)
+                    ;
             collection.add(q.get());
         }
 

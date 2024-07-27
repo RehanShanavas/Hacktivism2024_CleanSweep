@@ -82,7 +82,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
                 holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.brown));
                 holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.fadedbrown));
             } else if (!inRange) {
-                holder.joinButton.setText("Not in Range");
+                holder.joinButton.setText("Not near Location");
                 holder.joinButton.setTextColor(ContextCompat.getColor(mContext, R.color.brown));
                 holder.joinButton.setBackgroundColor(ContextCompat.getColor(mContext, R.color.fadedbrown));
             } else {
