@@ -93,7 +93,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="3dp" />
+        android:layout_height="7dp" />
 
     <ProgressBar
         android:id="@+id/add_post_progressBar"
@@ -106,7 +106,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="3dp" />
+        android:layout_height="7dp" />
 
     <Button
         android:id="@+id/confirm_post"
