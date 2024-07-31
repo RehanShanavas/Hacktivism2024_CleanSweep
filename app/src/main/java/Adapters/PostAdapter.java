@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
+import java.lang.Math;
 
 import Models.PostObject;
 
@@ -56,6 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
         holder.endTime.setText(post.getEndDateVal());
         holder.partcipantCount.setText("Partcicpants: " + post.getParticipantsCount());
         holder.postLocation.setText(post.getLocationNameVal());
+        holder.latlon.setText(getlatlon(Double.parseDouble(post.getLatitudeVal()), Double.parseDouble(post.getLongitudeVal())));
         Glide.with(mContext).load(post.getImageVal()).into(holder.postImage);
 
         String postGeoHash = post.getGeoHashVal();
@@ -134,6 +136,38 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
         return mData.size();
     }
 
+    public String getlatlon(double latitude, double longitude){
+        double remainder = 0;
+        String latlon = "";
+//        latitude
+        remainder = Math.abs(latitude);
+        latlon += String.valueOf((int)Math.floor(remainder)) + "°";
+        remainder = (remainder - Math.floor(remainder)) * 60;
+        latlon += String.valueOf((int)Math.floor(remainder)) + "'";
+        remainder = (remainder - Math.floor(remainder)) * 60;
+        latlon += String.valueOf(Math.floor(remainder)) + '"';
+        if (latitude < 0){
+            latlon += "S";
+        } else {
+            latlon += "N";
+        }
+        latlon += " ";
+        //        longitude
+        remainder = Math.abs(longitude);
+        latlon += String.valueOf((int)Math.floor(remainder)) + "°";
+        remainder = (remainder - Math.floor(remainder)) * 60;
+        latlon += String.valueOf((int)Math.floor(remainder)) + "'";
+        remainder = (remainder - Math.floor(remainder)) * 60;
+        latlon += String.valueOf(Math.floor(remainder)) + '"';
+        if (longitude < 0){
+            latlon += "W";
+        } else {
+            latlon += "E";
+        }
+
+        return latlon;
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView postTitle;
         TextView userName;
@@ -142,6 +176,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
         TextView endTime;
         TextView partcipantCount;
         TextView postLocation;
+        TextView latlon;
         ImageView postImage;
         Button joinButton;
 
@@ -154,6 +189,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder>{
             endTime = itemView.findViewById(R.id.postitem_endtime);
             partcipantCount = itemView.findViewById(R.id.postitem_participantcount);
             postLocation = itemView.findViewById(R.id.postitem_location);
+            latlon = itemView.findViewById(R.id.postitem_latlon);
             postImage = itemView.findViewById(R.id.postitem_image);
             joinButton = itemView.findViewById(R.id.postitem_join);
         }
