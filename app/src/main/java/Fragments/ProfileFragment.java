@@ -204,6 +204,9 @@ public class ProfileFragment extends Fragment {
                         if (callback != null) {
                             callback.onProfileUpdated(username, photoUri);
                         }
+                        Title.setText("Home");
+                        assert getActivity() != null;
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.main_content, new HomeFragment()).commit();
                     } else {
                         Toast.makeText(getActivity(), "Profile update failed.", Toast.LENGTH_SHORT).show();
                     }
