@@ -131,7 +131,7 @@ public class HomeFragment extends Fragment {
 
     private void setupFirestoreListener() {
         final GeoLocation center = new GeoLocation(latitude, longitude);
-        final double radiusInM = 50 * 1000;
+        final double radiusInM = 25 * 1000;
 
         List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, radiusInM);
         final List<Task<QuerySnapshot>> collection = new ArrayList<>();

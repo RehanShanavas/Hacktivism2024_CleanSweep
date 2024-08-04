@@ -32,14 +32,15 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/googleg_standard_color_18"
+                    android:src="@drawable/placeholder"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/posttitle"
                     android:orientation="horizontal">
 
                     <androidx.cardview.widget.CardView

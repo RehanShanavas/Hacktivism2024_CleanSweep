@@ -227,8 +227,8 @@ public class Post extends AppCompatActivity {
             public void onLocationChanged(@NonNull Location location) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-//                latitude = 37.594889;
-//                longitude = -121.904944;
+//                latitude = 37.764832;
+//                longitude = -121.84930;
 
                 postLocation.setText(getLocationDetails(latitude, longitude));
                 locationManager.removeUpdates(this);
